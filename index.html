@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<link rel="manifest" href="./manifest.webmanifest">
+<meta name="theme-color" content="#101827">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Month League — دوري الأشهر</title>
+<style>
+:root{--bg:#070b14;--panel:#101827;--panel2:#151f31;--line:#27344a;--text:#f5f7fb;--muted:#91a0b8;--accent:#5b8cff;--green:#35d49a;--gold:#f5c451;--red:#ff6b7a}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 50% -20%,#172849 0,#070b14 45%);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Arial,sans-serif}
+button{font:inherit;border:0;cursor:pointer}.app{max-width:1180px;margin:auto;padding:18px}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}.brand{display:flex;align-items:center;gap:12px}.logo{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(135deg,#5b8cff,#7c5cff);font-size:24px;box-shadow:0 10px 30px #0005}.brand h1{margin:0;font-size:22px}.brand small{color:var(--muted)}
+.btn{padding:11px 16px;border-radius:12px;background:var(--accent);color:white;font-weight:800}.btn.secondary{background:#1b2638}.btn:disabled{opacity:.45;cursor:not-allowed}
+.hero{background:linear-gradient(135deg,#111c31,#0e1524);border:1px solid var(--line);border-radius:22px;padding:25px;box-shadow:0 20px 60px #0004}.hero h2{margin:0 0 8px;font-size:30px}.hero p{color:var(--muted);line-height:1.7;margin:0 0 18px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:16px}.kpi{background:#0b1321;border:1px solid var(--line);border-radius:15px;padding:14px}.kpi b{display:block;font-size:21px}.kpi span{color:var(--muted);font-size:12px}
+.layout{display:grid;grid-template-columns:1fr 320px;gap:14px;margin-top:14px}.panel{background:rgba(16,24,39,.94);border:1px solid var(--line);border-radius:18px;padding:16px}.panel h3{margin:0 0 14px}
+.progress{height:7px;background:#202c40;border-radius:99px;overflow:hidden}.progress i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),#9a74ff);border-radius:99px}
+.roundhead{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px}.roundhead strong{font-size:19px}.roundhead span{color:var(--muted);font-size:13px}
+.matches{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.match{background:var(--panel2);border:1px solid #2a3951;border-radius:15px;padding:13px}.teams{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px;text-align:center}.teamname{font-weight:800}.score{font-size:24px;font-weight:900}.events{margin-top:10px;padding-top:9px;border-top:1px solid #2a3951;color:#b9c5d8;font-size:12px;line-height:1.8;min-height:35px}.goal{color:#f5f7fb}
+.tabs{display:flex;gap:7px;overflow:auto;padding-bottom:2px}.tab{background:#162238;color:#aebbd0;padding:9px 13px;border-radius:10px;white-space:nowrap}.tab.active{background:var(--accent);color:#fff}
+.table{width:100%;border-collapse:collapse}.table th,.table td{padding:10px 7px;border-bottom:1px solid #25334a;text-align:center;font-size:13px}.table th{color:#8493ab;font-weight:700}.table td:nth-child(2),.table th:nth-child(2){text-align:right}.rank{width:25px;color:#8391a8}.teamdot{display:inline-grid;place-items:center;width:27px;height:27px;border-radius:8px;background:#263650;margin-left:7px;font-size:12px}
+.toplist{display:grid;gap:8px}.row{display:flex;align-items:center;justify-content:space-between;background:#111b2c;border:1px solid #26354c;border-radius:11px;padding:9px}.row .who{display:flex;align-items:center;gap:8px}.num{width:22px;color:#71819a}.stat{font-weight:900}
+.awards{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}.award{background:#111b2c;border:1px solid #293850;border-radius:13px;padding:12px}.award span{display:block;color:var(--muted);font-size:11px;margin-bottom:5px}.award b{font-size:14px}
+.notice{padding:12px;border-radius:12px;background:#0e211d;border:1px solid #205b4a;color:#a7f1d6;margin-top:12px}
+@media(max-width:850px){.layout{grid-template-columns:1fr}.kpis{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.app{padding:11px}.matches{grid-template-columns:1fr}.hero h2{font-size:25px}.awards{grid-template-columns:1fr}header{align-items:flex-start}.brand small{display:block}}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+ <div class="brand"><div class="logo">🏆</div><div><h1>دوري الأشهر</h1><small>Month League • Simulation</small></div></div>
+ <button class="btn secondary" id="reset" type="button" onclick="newLeague()">＋ دوري جديد</button>
+</header>
+
+<section id="start" class="hero">
+ <h2>أنشئ عالمك الكروي</h2>
+ <p>12 ناديًا تمثل أشهر السنة. اللاعبون والقدرات تُولد عند إنشاء الدوري، ثم تُحسم النتائج من جودة الفرق وأداء اللاعبين بدل رمي نتائج عشوائية.</p>
+ <button class="btn" id="startBtn" type="button" onclick="newLeague()">إنشاء دوري جديد 🚀</button>
+ <div class="kpis"><div class="kpi"><b>12</b><span>فريقًا</span></div><div class="kpi"><b>288</b><span>لاعبًا</span></div><div class="kpi"><b>22</b><span>جولة</span></div><div class="kpi"><b>132</b><span>مباراة</span></div></div>
+</section>
+
+<section id="game" style="display:none">
+ <div class="panel" style="margin-top:14px">
+  <div class="roundhead"><div><strong id="stageTitle">الجولة 1</strong><br><span id="stageSub">مرحلة الذهاب</span></div><button class="btn" id="advance" type="button" onclick="advanceRound()">محاكاة الجولة ⏭</button></div>
+  <div class="progress"><i id="bar"></i></div>
+ </div>
+
+ <div class="layout">
+  <main>
+   <div class="panel">
+    <div class="tabs">
+     <button class="tab active" data-view="results">النتائج</button>
+     <button class="tab" data-view="table">الترتيب</button>
+     <button class="tab" data-view="stats">الإحصائيات</button>
+     <button class="tab" data-view="awards">الجوائز</button>
+    </div>
+    <div id="content" style="margin-top:15px"></div>
+   </div>
+  </main>
+  <aside>
+   <div class="panel"><h3>🔥 المتصدرون</h3><div id="leaders" class="toplist"></div></div>
+   <div class="panel"><h3>📌 حالة الموسم</h3><div id="season"></div></div>
+  </aside>
+ </div>
+</section>
+</div>
+
+<script>
+const months=["يناير","فبراير","مارس","أبريل","مايو","يونيو","يوليو","أغسطس","سبتمبر","أكتوبر","نوفمبر","ديسمبر"];
+const fn=["آدم","عمر","سامي","يوسف","مالك","نوح","إياد","رامي","كريم","أنس","زين","ياسين","علي","سيف","مازن","جاد","ريان","باسل","مروان","نديم","طارق","هاني","فارس","يزن"];
+const ln=["حسن","علي","محمد","سالم","نور","عمر","كريم","حمد","آدم","صالح","زيد","يوسف","خالد","منصور"];
+let L=null,view="results";
+
+const $=id=>document.getElementById(id);
+const rnd=(a,b)=>Math.floor(Math.random()*(b-a+1))+a;
+const shuffle=a=>[...a].sort(()=>Math.random()-.5);
+const poisson=(lambda)=>{let e=Math.exp(-lambda),k=0,p=1;do{k++;p*=Math.random()}while(p>e);return k-1};
+function pname(){return fn[rnd(0,fn.length-1)]+" "+ln[rnd(0,ln.length-1)]}
+function player(i){let o=rnd(55,88);return{id:i,name:pname(),age:rnd(18,34),ovr:o,shoot:rnd(45,90),pass:rnd(45,90),def:rnd(40,90),save:rnd(45,90),g:0,a:0,y:0,cs:0}}
+function power(t){return t.players.reduce((s,p)=>s+p.ovr,0)/t.players.length}
+function attacker(t){
+ let a=t.players.filter(p=>p.age>=18).sort((x,y)=>(y.shoot+y.ovr)-(x.shoot+x.ovr));
+ if(a.length && a[0].legend && Math.random()<0.72) return a[0];
+ return a[rnd(0,Math.min(7,a.length-1))];
+}
+function buildSchedule(){
+ let a=L.teams.map(t=>t.id),rs=[];
+ for(let r=0;r<11;r++){let g=[];for(let i=0;i<6;i++)g.push([a[i],a[11-i]]);rs.push(g);a=[a[0],a[11],...a.slice(1,11)]}
+ L.schedule=[...rs,...rs.map(r=>r.map(x=>[x[1],x[0]]))]
+}
+function newLeague(){
+ let ps=Array.from({length:288},(_,i)=>player(i));
+ L={teams:months.map((name,id)=>({id,name,players:[],p:0,w:0,d:0,l:0,gf:0,ga:0})),round:0,last:null,schedule:[]};
+ shuffle(ps).forEach((p,i)=>L.teams[i%12].players.push(p));
+
+ // ⭐ ANAN MOHAMED — the game's elite striker, permanently assigned to February.
+ const feb=L.teams[1];
+ const anan={
+   id:"anan-mohamed",
+   name:"عنان محمد",
+   age:23,
+   ovr:99,
+   shoot:99,
+   pass:91,
+   def:48,
+   save:35,
+   pace:97,
+   g:0,a:0,y:0,cs:0,
+   position:"ST",
+   legend:true
+ };
+ // Replace the weakest generated player so the league remains exactly 288 players.
+ let weakestIndex=0;
+ for(let i=1;i<feb.players.length;i++){
+   if(feb.players[i].ovr<feb.players[weakestIndex].ovr) weakestIndex=i;
+ }
+ feb.players[weakestIndex]=anan;
+
+ buildSchedule();
+ $("start").style.display="none";
+ $("game").style.display="block";
+ view="results";
+ render();
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+function sim(a,b){
+ let ea=Math.max(.25,power(a)/70)*1.04,eb=Math.max(.25,power(b)/70);
+ let ga=Math.min(7,poisson(ea)),gb=Math.min(7,poisson(eb)),events=[];
+ for(let i=0;i<ga;i++){let p=attacker(a);p.g++;let as=Math.random()<.7?attacker(a):null;if(as&&as.id!==p.id){as.a++;}events.push({m:rnd(3,90),t:"⚽",p,a:as})}
+ for(let i=0;i<gb;i++){let p=attacker(b);p.g++;let as=Math.random()<.7?attacker(b):null;if(as&&as.id!==p.id){as.a++;}events.push({m:rnd(3,90),t:"⚽",p,a:as})}
+ if(Math.random()<.45){let t=Math.random()<.5?a:b;t.players[rnd(0,t.players.length-1)].y++}
+ return{a,b,ga,gb,events:events.sort((x,y)=>x.m-y.m)}
+}
+function play(){
+ if(L.round>=22)return;
+ let games=[];
+ for(let [ia,ib] of L.schedule[L.round]){
+  let a=L.teams[ia],b=L.teams[ib],m=sim(a,b);games.push(m);
+  a.gf+=m.ga;a.ga+=m.gb;b.gf+=m.gb;b.ga+=m.ga;
+  if(m.ga>m.gb){a.w++;b.l++;a.p+=3}else if(m.gb>m.ga){b.w++;a.l++;b.p+=3}else{a.d++;b.d++;a.p++;b.p++}
+ }
+ L.last=games;L.round++;
+}
+function sorted(){return[...L.teams].sort((a,b)=>(b.p-a.p)||((b.gf-b.ga)-(a.gf-a.ga))||(b.gf-a.gf))}
+function players(){return L.teams.flatMap(t=>t.players)}
+function top(key,n=10){return[...players()].sort((a,b)=>b[key]-a[key]).slice(0,n)}
+function advanceRound(){
+  if(!L) return;
+  if(L.round<22){
+    play();
+    view="results";
+    render();
+  }
+}
+function render(){
+ $("stageTitle").textContent=L.round===22?"انتهى الموسم":`الجولة ${L.round+1} من 22`;
+ $("stageSub").textContent=L.round<11?"مرحلة الذهاب":L.round<22?"مرحلة الإياب":"الموسم مكتمل";
+ $("bar").style.width=(L.round/22*100)+"%";
+ $("advance").textContent=L.round===22?"الموسم مكتمل":"محاكاة الجولة ⏭";
+ renderContent();renderSide()
+}
+function renderContent(){
+ document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("active",x.dataset.view===view));
+ if(view==="results")results();if(view==="table")table();if(view==="stats")stats();if(view==="awards")awards()
+}
+function results(){
+ if(!L.last){$("content").innerHTML="<div class='notice'>الدوري جاهز. اضغط «محاكاة الجولة» لبدء أول أسبوع.</div>";return}
+ $("content").innerHTML=`<h3>نتائج الجولة ${L.round}</h3><div class="matches">${L.last.map(m=>`<article class="match"><div class="teams"><div class="teamname">${m.a.name}</div><div class="score">${m.ga} — ${m.gb}</div><div class="teamname">${m.b.name}</div></div><div class="events">${m.events.length?m.events.map(e=>`${e.m}' <span class="goal">${e.t} ${e.p.name}</span>${e.a?` · 🎯 ${e.a.name}`:""}`).join("<br>"):"لا توجد أهداف"} </div></article>`).join("")}</div>`;
+}
+function table(){
+ let s=sorted();$("content").innerHTML=`<h3>جدول الدوري</h3><table class="table"><tr><th>#</th><th>الفريق</th><th>ل</th><th>ف</th><th>ت</th><th>خ</th><th>له</th><th>ع</th><th>ن</th></tr>${s.map((t,i)=>`<tr><td class="rank">${i+1}</td><td><span class="teamdot">${t.name.slice(0,2)}</span>${t.name}</td><td>${t.w+t.d+t.l}</td><td>${t.w}</td><td>${t.d}</td><td>${t.l}</td><td>${t.gf}</td><td>${t.ga}</td><td><b>${t.p}</b></td></tr>`).join("")}</table>`
+}
+function stats(){
+ $("content").innerHTML=`<h3>إحصائيات الموسم</h3><div class="awards"><div class="award"><span>⚽ الهدافون</span>${top("g",7).map((p,i)=>`<b>${i+1}. ${p.name} — ${p.g}</b><br>`).join("")}</div><div class="award"><span>🎯 صانعو اللعب</span>${top("a",7).map((p,i)=>`<b>${i+1}. ${p.name} — ${p.a}</b><br>`).join("")}</div><div class="award"><span>🟨 البطاقات</span>${[...players()].sort((a,b)=>b.y-a.y).slice(0,7).map((p,i)=>`<b>${i+1}. ${p.name} — ${p.y}</b><br>`).join("")}</div><div class="award"><span>⭐ أعلى تقييمات اللاعبين</span>${[...players()].sort((a,b)=>b.ovr-a.ovr).slice(0,7).map((p,i)=>`<b>${i+1}. ${p.name}${p.legend?" 👑":""} — ${p.ovr}</b><br>`).join("")}</div></div>`
+}
+function awards(){
+ if(L.round<22){$("content").innerHTML="<div class='notice'>جوائز الموسم تُعلن بعد انتهاء الجولة 22، بناءً على إحصائيات الموسم الفعلية.</div>";return}
+ let s=sorted(),ps=players(),go=top("g")[0],as=top("a")[0],best=[...ps].sort((a,b)=>(b.g*5+b.a*3+b.ovr)-(a.g*5+a.a*3+a.ovr))[0],young=[...ps].filter(p=>p.age<=21).sort((a,b)=>(b.g*5+b.a*3+b.ovr)-(a.g*5+a.a*3+a.ovr))[0];
+ $("content").innerHTML=`<h3>🏆 جوائز الموسم</h3><div class="awards"><div class="award"><span>أفضل لاعب</span><b>${best.name}</b></div><div class="award"><span>أفضل لاعب شاب</span><b>${young.name}</b></div><div class="award"><span>الهداف</span><b>${go.name} · ${go.g} هدف</b></div><div class="award"><span>أفضل صانع لعب</span><b>${as.name} · ${as.a} تمريرة حاسمة</b></div><div class="award"><span>أفضل فريق</span><b>${s[0].name}</b></div><div class="award"><span>تشكيلة الموسم</span><b>يتم اختيارها من أعلى أداء للاعبين حسب المراكز</b></div></div>`
+}
+function renderSide(){
+ let s=sorted(),g=top("g",5);
+ $("leaders").innerHTML=g.map((p,i)=>`<div class="row"><div class="who"><span class="num">${i+1}</span><span>${p.name}</span></div><span class="stat">${p.g} ⚽</span></div>`).join("");
+ $("season").innerHTML=`<p style="margin:0;color:var(--muted)">المتصدر: <b style="color:white">${s[0].name}</b></p><p style="color:var(--muted)">النقاط: <b style="color:white">${s[0].p}</b></p><p style="color:var(--muted)">الجولات: <b style="color:white">${L.round}/22</b></p>`;
+}
+/* Button actions: expose handlers globally and avoid form-submit behavior. */
+window.newLeague = newLeague;
+window.advanceRound = advanceRound;
+document.querySelectorAll("button").forEach(function(btn){ btn.type="button"; });
+</script>
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js").catch(()=>{}));
+}
+</script>
+</body>
+</html>
